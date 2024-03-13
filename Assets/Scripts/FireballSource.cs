@@ -10,7 +10,7 @@ public class FireballSource : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MouseLock();
     }
 
     // Update is called once per frame
@@ -35,5 +35,10 @@ public class FireballSource : MonoBehaviour
         {
             targetPoint.position = ray.GetPoint(targetInSkyDistance);
         }
+    }
+    private void MouseLock()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
