@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject gameplayUI;
     public GameObject gameOverScreen;
     private float _maxValue;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,5 +42,6 @@ public class PlayerHealth : MonoBehaviour
         GetComponent<PlayerController>().enabled=false;
         GetComponent<FireballCaster>().enabled=false;
         GetComponent<CameraRotation>().enabled=false;
+        animator.SetTrigger("death");
     }
 }
