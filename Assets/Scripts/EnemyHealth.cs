@@ -5,10 +5,17 @@ using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public PlayerProgress playerProgress;
-    public Animator animator; 
-
     public float value = 100;
+
+    private PlayerProgress playerProgress;
+    public Animator animator;
+    public Explosion explosionPrefab;
+
+    public bool IsAlive()
+    {
+        return value > 0;
+    }
+
     public void DealDamage(float damage)
     {
         playerProgress.AddExperience(damage);
@@ -16,11 +23,8 @@ public class EnemyHealth : MonoBehaviour
         value -= damage;
         if (value <= 0)
         {
-            /*            Destroy(gameObject);*/
-            animator.SetTrigger("death");
-            GetComponent<EnemyAI>().enabled = false;
-            GetComponent<NavMeshAgent>().enabled = false;
-            GetComponent<CapsuleCollider>().enabled = false;
+
+            EnemyDeath();
 
         }
         else
@@ -28,15 +32,29 @@ public class EnemyHealth : MonoBehaviour
             animator.SetTrigger("hit");
         }
     }
-    // Start is called before the first frame update
-    void Start()
+
+    private void EnemyDeath()
     {
-        
+        animator.SetTrigger("death");
+        GetComponent<EnemyAI>().enabled = false;
+        GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
+
+        MobExplosion();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void MobExplosion()
     {
-        
+        if (explosionPrefab == null) return;
+
+        var explosion = Instantiate(explosionPrefab);
+        explosion.transform.position = transform.position;
     }
+
+    void Start()
+    {
+        playerProgress = FindObjectOfType<PlayerProgress>();
+    }
+
+ 
 }
